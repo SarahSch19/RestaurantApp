@@ -1,5 +1,6 @@
 public class App {
     private Order order;
+    private Formule formule = new Formule();
 
     public App(Order order) {
         this.order = order;
@@ -30,102 +31,80 @@ public class App {
         return total;
     }
 
-    private boolean cafeOffert () {
-        return this.order.type == Type.ASSIETTE && this.order.size == OrderSize.MOYEN && this.order.dsize == DrinkSize.NORMAL && this.order.coffee;
+    private boolean cafeOffert() {
+        return this.order.type == Type.ASSIETTE && this.order.size == OrderSize.MOYEN && this.order.drinkSize == DrinkSize.NORMAL && this.order.coffee;
     }
 
-    private int computeAssiette () {
+    private int computeAssiette() {
         int total = 15;
 
         // ainsi qu'une boisson de taille:
-        if (this.order.size == OrderSize.PETIT) {
-
-            total += 2;
-            // dans ce cas, on applique la formule standard
-            if (this.order.dsize == DrinkSize.NORMAL) {
-                // pas de formule
-                // on ajoute le prix du dessert normal
-                total += 2;
-            } else {
-                // sinon on rajoute le prix du dessert special
-                total += 4;
-            }
-
+        switch (this.order.size) {
+            case PETIT -> total += formule.petiteFormule(order.drinkSize);
             // si on prends moyen
-        } else if (this.order.size == OrderSize.MOYEN) {
-
-
-            total += 3;
-            // dans ce cas, on applique la formule standard
-            if (this.order.dsize == DrinkSize.NORMAL) {
-                // j'affiche la formule appliquée
-                System.out.print("Prix Formule Standard appliquée ");
-                // le prix de la formule est donc 18
-                total = 18;
-            } else {
-                // sinon on rajoute le prix du dessert special
-                total += 4;
+            case MOYEN -> {
+                total += formule.moyenneFormule();
+                // dans ce cas, on applique la formule standard
+                if (this.order.drinkSize == DrinkSize.NORMAL) {
+                    // j'affiche la formule appliquée
+                    System.out.print("Prix Formule Standard appliquée ");
+                    // le prix de la formule est donc 18
+                    total = 18;
+                } else {
+                    // sinon on rajoute le prix du dessert special
+                    total += 4;
+                }
             }
-
-        } else if (this.order.size == OrderSize.GRAND) {
-            total += 4;
-            // dans ce cas, on applique la formule standard
-            if (this.order.dsize == DrinkSize.NORMAL) {
-                // pas de formule
-                // on ajoute le prix du dessert normal
-                total += 2;
-            } else {
-                // dans ce cas on a la fomule max
-                System.out.print("Prix Formule Max appliquée ");
-                total = 21;
+            case GRAND -> {
+                total += formule.grandeFormule();
+                // dans ce cas, on applique la formule standard
+                if (this.order.drinkSize == DrinkSize.NORMAL) {
+                    // pas de formule
+                    // on ajoute le prix du dessert normal
+                    total += 2;
+                } else {
+                    // dans ce cas on a la fomule max
+                    System.out.print("Prix Formule Max appliquée ");
+                    total = 21;
+                }
             }
-
         }
         return total;
     }
 
-    private int computeSandwich () {
+    private int computeSandwich() {
         int total = 10;
         // ainsi qu'une boisson de taille:
-        if (this.order.size == OrderSize.PETIT) {
-            total += 2;
-            // dans ce cas, on applique la formule standard
-            if (this.order.dsize == DrinkSize.NORMAL) {
-                // pas de formule
-                // on ajoute le prix du dessert normal
-                total += 2;
-            } else {
-                // sinon on rajoute le prix du dessert special
-                total += 4;
-            }
+        switch (this.order.size) {
+            case PETIT -> total += formule.petiteFormule(order.drinkSize);
 
             // si on prends moyen
-        } else if (this.order.size == OrderSize.MOYEN) {
-            total += 3;
-            // dans ce cas, on applique la formule standard
-            if (this.order.dsize == DrinkSize.NORMAL) {
-                // j'affiche la formule appliquée
-                System.out.print("Prix Formule Standard appliquée ");
-                // le prix de la formule est donc 13
-                total = 13;
-            } else {
-                // sinon on rajoute le prix du dessert special
-                total += 4;
+            case MOYEN -> {
+                total += formule.moyenneFormule();
+                // dans ce cas, on applique la formule standard
+                if (this.order.drinkSize == DrinkSize.NORMAL) {
+                    // j'affiche la formule appliquée
+                    System.out.print("Prix Formule Standard appliquée ");
+                    // le prix de la formule est donc 13
+                    total = 13;
+                } else {
+                    // sinon on rajoute le prix du dessert special
+                    total += 4;
+                }
             }
-
-        } else if (this.order.size == OrderSize.GRAND) {
-            total += 4;
-            // dans ce cas, on applique la formule standard
-            if (this.order.dsize == DrinkSize.NORMAL) {
-                // pas de formule
-                // on ajoute le prix du dessert normal
-                total += 2;
-            } else {
-                // dans ce cas on a la fomule max
-                System.out.print("Prix Formule Max appliquée ");
-                total = 16;
+            case GRAND -> {
+                total += formule.grandeFormule();
+                // dans ce cas, on applique la formule standard
+                if (this.order.drinkSize == DrinkSize.NORMAL) {
+                    // pas de formule
+                    // on ajoute le prix du dessert normal
+                    total += 2;
+                } else {
+                    // dans ce cas on a la fomule max
+                    System.out.print("Prix Formule Max appliquée ");
+                    total = 16;
+                }
             }
-
         }
         return total;
     }

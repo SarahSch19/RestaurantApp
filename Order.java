@@ -4,7 +4,7 @@ public class Order {
     public String beverage;
     public OrderSize size;
     public String dessert;
-    public DrinkSize dsize;
+    public DrinkSize drinkSize;
     public boolean coffee;
 
     private Order(String type, String name, String beverage, String size, String dessert, String dsize, String coffee) throws Exception {
@@ -13,7 +13,7 @@ public class Order {
         this.beverage = beverage;
         this.size = Utils.orderSizeFromString(size);
         this.dessert = dessert;
-        this.dsize = Utils.drinkSizeFromString(dsize);
+        this.drinkSize = Utils.drinkSizeFromString(dsize);
         this.coffee = coffee.equals("yes");
     }
 
