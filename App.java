@@ -20,10 +20,9 @@ public class App {
             case ASSIETTE -> total = this.computeAssiette();
             case SANDWICH -> total = this.computeSandwich();
         }
-        if (this.cafeOffert()) {
+        if (formule.cafeOffert(this.order)) {
             System.out.print(" avec café offert!");
         } else {
-            // Assume coffee costs 1 unit, adding to the total only if coffee is not included
             if (!this.order.coffee) {
                 total += 1;
             }
@@ -31,80 +30,25 @@ public class App {
         return total;
     }
 
-    private boolean cafeOffert() {
-        return this.order.type == Type.ASSIETTE && this.order.size == OrderSize.MOYEN && this.order.drinkSize == DrinkSize.NORMAL && this.order.coffee;
-    }
-
     private int computeAssiette() {
-        int total = 15;
+        int total = this.formule.baseAssiette;
 
-        // ainsi qu'une boisson de taille:
         switch (this.order.size) {
             case PETIT -> total += formule.petiteFormule(order.drinkSize);
-            // si on prends moyen
-            case MOYEN -> {
-                total += formule.moyenneFormule();
-                // dans ce cas, on applique la formule standard
-                if (this.order.drinkSize == DrinkSize.NORMAL) {
-                    // j'affiche la formule appliquée
-                    System.out.print("Prix Formule Standard appliquée ");
-                    // le prix de la formule est donc 18
-                    total = 18;
-                } else {
-                    // sinon on rajoute le prix du dessert special
-                    total += 4;
-                }
-            }
-            case GRAND -> {
-                total += formule.grandeFormule();
-                // dans ce cas, on applique la formule standard
-                if (this.order.drinkSize == DrinkSize.NORMAL) {
-                    // pas de formule
-                    // on ajoute le prix du dessert normal
-                    total += 2;
-                } else {
-                    // dans ce cas on a la fomule max
-                    System.out.print("Prix Formule Max appliquée ");
-                    total = 21;
-                }
-            }
+            case MOYEN -> total += formule.moyenneFormule(total, this.order.drinkSize, this.order.type);
+            case GRAND -> total = formule.grandeFormule(total, this.order.drinkSize, this.order.type);
         }
         return total;
     }
 
     private int computeSandwich() {
-        int total = 10;
-        // ainsi qu'une boisson de taille:
+        int total = this.formule.baseSandwich;
+
         switch (this.order.size) {
             case PETIT -> total += formule.petiteFormule(order.drinkSize);
+            case MOYEN -> total = formule.moyenneFormule(total, this.order.drinkSize, this.order.type);
+            case GRAND -> total = formule.grandeFormule(total, this.order.drinkSize, this.order.type);
 
-            // si on prends moyen
-            case MOYEN -> {
-                total += formule.moyenneFormule();
-                // dans ce cas, on applique la formule standard
-                if (this.order.drinkSize == DrinkSize.NORMAL) {
-                    // j'affiche la formule appliquée
-                    System.out.print("Prix Formule Standard appliquée ");
-                    // le prix de la formule est donc 13
-                    total = 13;
-                } else {
-                    // sinon on rajoute le prix du dessert special
-                    total += 4;
-                }
-            }
-            case GRAND -> {
-                total += formule.grandeFormule();
-                // dans ce cas, on applique la formule standard
-                if (this.order.drinkSize == DrinkSize.NORMAL) {
-                    // pas de formule
-                    // on ajoute le prix du dessert normal
-                    total += 2;
-                } else {
-                    // dans ce cas on a la fomule max
-                    System.out.print("Prix Formule Max appliquée ");
-                    total = 16;
-                }
-            }
         }
         return total;
     }
