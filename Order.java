@@ -1,20 +1,20 @@
 public class Order {
-    public String type;
+    public Type type;
     public String name;
     public String beverage;
-    public String size;
+    public OrderSize size;
     public String dessert;
-    public String dsize;
-    public String coffee;
+    public DrinkSize dsize;
+    public boolean coffee;
 
-    private Order(String type, String name, String beverage, String size, String dessert, String dsize, String coffee) {
-        this.type = type;
+    private Order(String type, String name, String beverage, String size, String dessert, String dsize, String coffee) throws Exception {
+        this.type = Utils.typeFromString(type);
         this.name = name;
         this.beverage = beverage;
-        this.size = size;
+        this.size = Utils.orderSizeFromString(size);
         this.dessert = dessert;
-        this.dsize = dsize;
-        this.coffee = coffee;
+        this.dsize = Utils.drinkSizeFromString(dsize);
+        this.coffee = coffee.equals("yes");
     }
 
     public static Order fromArgs(String[] args) throws Exception {
