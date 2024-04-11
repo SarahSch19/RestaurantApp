@@ -12,14 +12,7 @@ public class App {
     // les prix sont fixes pour chaque type de chose mais des réductions peuvent s'appliquer
     // si cela rentre dans une formule!
     public int Compute() {
-        // prix total à payer pour le client
-        int total = 0;
-
-        // si le client prends un plat en assiette
-        switch (this.order.type) {
-            case ASSIETTE -> total = this.computeAssiette();
-            case SANDWICH -> total = this.computeSandwich();
-        }
+        int total = this.computeByOrderType();
         if (formule.cafeOffert(this.order)) {
             System.out.print(" avec café offert!");
         } else {
@@ -30,27 +23,16 @@ public class App {
         return total;
     }
 
-    private int computeAssiette() {
-        int total = this.formule.baseAssiette;
-
-        switch (this.order.size) {
-            case PETIT -> total += formule.petiteFormule(order.drinkSize);
-            case MOYEN -> total += formule.moyenneFormule(total, this.order.drinkSize, this.order.type);
-            case GRAND -> total = formule.grandeFormule(total, this.order.drinkSize, this.order.type);
-        }
-        return total;
-    }
-
-    private int computeSandwich() {
-        int total = this.formule.baseSandwich;
-
+    private int computeByOrderType() {
+        int total = switch (this.order.type) {
+            case ASSIETTE -> this.formule.baseAssiette;
+            case SANDWICH -> this.formule.baseSandwich;
+        };
         switch (this.order.size) {
             case PETIT -> total += formule.petiteFormule(order.drinkSize);
             case MOYEN -> total = formule.moyenneFormule(total, this.order.drinkSize, this.order.type);
             case GRAND -> total = formule.grandeFormule(total, this.order.drinkSize, this.order.type);
-
         }
         return total;
     }
-
 }

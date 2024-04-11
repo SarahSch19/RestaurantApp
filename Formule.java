@@ -1,9 +1,9 @@
 public class Formule {
-    private int petiteFormuleBase = 2;
-    private int moyenneFormuleBase = 3;
-    private int grandeFormuleBase = 4;
-    public int baseSandwich = 10;
-    public int baseAssiette = 15;
+    private final int petiteFormuleBase = 2;
+    private final int moyenneFormuleBase = 3;
+    private final int grandeFormuleBase = 4;
+    public final int baseSandwich = 10;
+    public final int baseAssiette = 15;
 
     public Formule() {
     }
@@ -12,9 +12,9 @@ public class Formule {
         return order.type == Type.ASSIETTE && order.size == OrderSize.MOYEN && order.drinkSize == DrinkSize.NORMAL && order.coffee;
     }
 
-    public int petiteFormule (DrinkSize drinkSize) {
+    public int petiteFormule(DrinkSize drinkSize) {
         int prix = this.petiteFormuleBase;
-        // dans ce cas, on applique la formule standard
+        // formule standard
         if (drinkSize == DrinkSize.NORMAL) {
             // pas de formule
             // on ajoute le prix du dessert normal
@@ -26,7 +26,7 @@ public class Formule {
         return prix;
     }
 
-    public int moyenneFormule (int total, DrinkSize drinkSize, Type type) {
+    public int moyenneFormule(int total, DrinkSize drinkSize, Type type) {
         total += this.moyenneFormuleBase;
         if (drinkSize == DrinkSize.NORMAL) {
             // j'affiche la formule appliquée
