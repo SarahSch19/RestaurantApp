@@ -21,6 +21,9 @@ public class Order {
         if (args.length != 7) {
             throw new Exception("Invalid number of arguments, 7 required : type, name, beverage, size, dessert, dsize, coffee");
         }
+        if (args[1].isEmpty()) {
+            throw new Exception("Name is required");
+        }
         return new Order(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
     }
 }
